@@ -31,7 +31,7 @@ Spring Boot приложение для мониторинга расхода г
 
 ```bash
 # Склонируйте проект
-https://github.com/<your-username>/measurement-tracker1.git
+https://github.com/Gooocha/measurement-tracker.git
 
 # Откройте в IntelliJ IDEA
 # Или запустите из консоли
