@@ -41,7 +41,12 @@ public class MeasurementServiceImpl implements MeasurementService {
         measurement.setHotWater(request.getHotWater());
         measurement.setColdWater(request.getColdWater());
 
-        repository.save(measurement);
+        try {
+            repository.save(measurement);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            log.info("Duplicate measurement for userId={} at timestamp={} was ignored due to race condition", request.getUserId(), request.getTimestamp());
+        }
+
 
     }
 

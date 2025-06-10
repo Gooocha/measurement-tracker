@@ -10,10 +10,11 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -102,6 +103,25 @@ public class MeasurementServiceTest {
         assertEquals(measurementRequest.getHotWater(), saved.getHotWater(),"hotwater is incorrect");
 
     }
+    @Test
+    void saveMeasurement_shouldIgnoreDataIntegrityViolation() {
+        MeasurementRequest measurementRequest = new MeasurementRequest();
+        measurementRequest.setUserId(1L);
+        measurementRequest.setTimestamp(LocalDateTime.of(2025, 5, 28, 10, 0));
+        measurementRequest.setGas(1.0);
+        measurementRequest.setColdWater(1.0);
+        measurementRequest.setHotWater(1.0);
+
+        when(measurementRepository.existsByUserIdAndTimestamp(
+                measurementRequest.getUserId(),
+                measurementRequest.getTimestamp())).thenReturn(false);
+
+        doThrow(new DataIntegrityViolationException("dup"))
+                .when(measurementRepository).save(any(Measurement.class));
+
+        assertDoesNotThrow(() -> measurementService.saveMeasurement(measurementRequest));
+    }
+
 
 }
 

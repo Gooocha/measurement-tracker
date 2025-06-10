@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
 import org.example.measurementtracker1.dto.MeasurementRequest;
 import org.example.measurementtracker1.model.Measurement;
@@ -29,10 +30,10 @@ public class MeasurementController {
 
     @Operation(
             summary = "Создать новое измерение",
-            description = "Сохраняет новое измерение для указанного пользователя. Возвращает статус 200, если значение уникально."
+            description = "Сохраняет новое измерение для указанного пользователя. Возвращает статус 201, если значение уникально."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Измерение успешно сохранено"),
+            @ApiResponse(responseCode = "201", description = "Измерение успешно сохранено"),
             @ApiResponse(responseCode = "400", description = "Ошибка валидации запроса")
     })
 
@@ -42,7 +43,7 @@ public class MeasurementController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Данные измерения", required = true)
             @Valid @RequestBody MeasurementRequest request) {
         measurementService.saveMeasurement(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

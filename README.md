@@ -6,8 +6,7 @@ Spring Boot приложение для мониторинга расхода г
 ---
 
 ##  Особенности
-
-* Добавление показаний: `POST /measurements`
+* Добавление показаний: `POST /measurements` (ответ `201 Created`)
 * История измерений по `userId`: `GET /measurements/{userId}`
 * Валидация входных данных
 * Игнорирование дубликатов (userId + timestamp)

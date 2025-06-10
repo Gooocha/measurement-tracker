@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
         indexes = {
                 @Index(name = "idx_user_id", columnList = "userId"),
                 @Index(name = "idx_user_timestamp", columnList = "userId, timestamp")
-        })
+        },
+        uniqueConstraints = @UniqueConstraint(columnNames = {"userId", "timestamp"}))
 @Getter
 @Setter
 public class Measurement {

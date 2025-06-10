@@ -96,6 +96,22 @@ public class MeasurementControllerTest {
                 .andExpect(jsonPath("$[0].gas", is(10.0)))
                 .andExpect(jsonPath("$[1].hotWater", is(14.0)));
     }
+    @Test
+    void createMeasurement_shouldReturnCreated_onValidInput() throws Exception {
+        String json = """
+                {
+                  "userId": 1,
+                  "timestamp": "2025-05-28T10:00:00",
+                  "gas": 12.5,
+                  "coldWater": 12.0,
+                  "hotWater": 14.2
+                }
+                """;
 
+        mockMvc.perform(post("/measurements")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated());
+    }
 
 }
