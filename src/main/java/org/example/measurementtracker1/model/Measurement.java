@@ -1,36 +1,51 @@
 package org.example.measurementtracker1.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "measurement",
+        indexes = {
+                @Index(name = "idx_user_id", columnList = "userId"),
+                @Index(name = "idx_user_timestamp", columnList = "userId, timestamp")
+        })
 @Getter
 @Setter
 public class Measurement {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private long userId;
+    @NotNull
+    @Column(nullable = false)
+    private Long userId;
 
-    private double hotWater;
-
-    private double coldWater;
-
-    private double gas;
-
+    @NotNull
+    @Column(nullable = false)
     private LocalDateTime timestamp;
 
+    @Min(0)
+    @Column(nullable = false)
+    private Double gas;
 
-    public Measurement(long userId, LocalDateTime timestamp, double gas, double hotWater, double coldWater) {
+    @Min(0)
+    @Column(nullable = false)
+    private Double coldWater;
+
+    @Min(0)
+    @Column(nullable = false)
+    private Double hotWater;
+
+    public Measurement(long userId, LocalDateTime timestamp,
+                       double gas, double hotWater, double coldWater) {
         this.userId = userId;
         this.timestamp = timestamp;
         this.gas = gas;
@@ -42,4 +57,5 @@ public class Measurement {
     public Measurement() {
 
     }
+
 }

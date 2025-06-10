@@ -22,17 +22,15 @@ public class MeasurementServiceImpl implements MeasurementService {
 
     @Override
     public void saveMeasurement(MeasurementRequest request) {
+        if (request.getHotWater() < request.getColdWater()) {
+            log.warn("Suspicious data: hot water < cold water");
+            throw new IllegalArgumentException("Hot water usage cannot be less than cold water");
+        }
 
-        if (repository.existsByUserIdAndTimestamp(request.getUserId(), request.getTimestamp())) {
-            if (repository.existsByUserIdAndTimestamp(request.getUserId(), request.getTimestamp())) {
-                log.info("Duplicate measurement for userId={} at timestamp={} was ignored",
-                        request.getUserId(), request.getTimestamp());
-                return;
-            }
-
+        if (isDuplicate(request)) {
+            log.info("Duplicate measurement for userId={} at timestamp={} was ignored",
+                    request.getUserId(), request.getTimestamp());
             return;
-            // TODO: вынести проверку на дубликат в отдельный метод для читаемости
-
         }
 
         Measurement measurement = new Measurement();
@@ -44,8 +42,11 @@ public class MeasurementServiceImpl implements MeasurementService {
         measurement.setColdWater(request.getColdWater());
 
         repository.save(measurement);
-        // TODO: добавить логирование ошибок в случае некорректного сохранения
 
+    }
+
+    private boolean isDuplicate(MeasurementRequest request) {
+        return repository.existsByUserIdAndTimestamp(request.getUserId(), request.getTimestamp());
     }
 
     @Override
