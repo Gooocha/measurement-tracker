@@ -3,8 +3,11 @@ package org.example.measurementtracker1.service;
 import org.example.measurementtracker1.dto.MeasurementRequest;
 import org.example.measurementtracker1.model.Measurement;
 import org.example.measurementtracker1.repository.MeasurementRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,6 +63,9 @@ public class MeasurementServiceImpl implements MeasurementService {
         return repository.findByUserId(userId);
     }
 
-
+    @Override
+    public Page<Measurement> getMeasurementsByUserIdAndDateRange(Long userId, LocalDateTime start, LocalDateTime end, Pageable pageable) {
+        return repository.findByUserIdAndTimestampBetween(userId, start, end, pageable);
+    }
 
 }

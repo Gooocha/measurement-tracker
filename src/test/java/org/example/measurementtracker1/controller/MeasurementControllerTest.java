@@ -113,5 +113,34 @@ public class MeasurementControllerTest {
                         .content(json))
                 .andExpect(status().isCreated());
     }
+    @Test
+    void getMeasurementsByUserIdAndDateRange_withPagination_returnsCorrectPage() throws Exception {
+        // Подготовка данных
+        Long userId = 1L;
+        LocalDateTime baseTime = LocalDateTime.of(2025, 6, 1, 12, 0);
+
+        for (int i = 0; i < 15; i++) {
+            Measurement measurement = new Measurement();
+            measurement.setUserId(userId);
+            measurement.setTimestamp(baseTime.plusDays(i));
+            measurement.setGas(10.0 + i);
+            measurement.setColdWater(5.0 + i);
+            measurement.setHotWater(3.0 + i);
+            measurementRepository.save(measurement);
+        }
+
+        // Запрос с пагинацией: первая страница, 5 элементов
+        mockMvc.perform(get("/measurements/{userId}/filter", userId)
+                        .param("start", baseTime.toString())
+                        .param("end", baseTime.plusDays(20).toString())
+                        .param("page", "0")
+                        .param("size", "5")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(5))
+                .andExpect(jsonPath("$.totalElements").value(15))
+                .andExpect(jsonPath("$.totalPages").value(3));
+    }
+
 
 }
