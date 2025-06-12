@@ -42,7 +42,6 @@ public class MeasurementControllerTest {
     void createMeasurement_shouldReturnBadRequest_onInvalidInput() throws Exception {
 
         List<String> invalidJsonInputs = List.of(
-                // Без userId
                 """
                 {
                   "timestamp": "2025-05-28T10:00:00",
@@ -51,7 +50,6 @@ public class MeasurementControllerTest {
                   "hotWater": 14.2
                 }
                 """,
-                // Без timestamp
                 """
                 {
                   "userId": 1,
@@ -60,7 +58,6 @@ public class MeasurementControllerTest {
                   "hotWater": 14.2
                 }
                 """,
-                // Без gas
                 """
                 {
                   "userId": 1,
@@ -115,7 +112,6 @@ public class MeasurementControllerTest {
     }
     @Test
     void getMeasurementsByUserIdAndDateRange_withPagination_returnsCorrectPage() throws Exception {
-        // Подготовка данных
         Long userId = 1L;
         LocalDateTime baseTime = LocalDateTime.of(2025, 6, 1, 12, 0);
 
@@ -129,7 +125,6 @@ public class MeasurementControllerTest {
             measurementRepository.save(measurement);
         }
 
-        // Запрос с пагинацией: первая страница, 5 элементов
         mockMvc.perform(get("/measurements/{userId}/filter", userId)
                         .param("start", baseTime.toString())
                         .param("end", baseTime.plusDays(20).toString())
