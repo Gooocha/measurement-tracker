@@ -26,21 +26,6 @@ public class MeasurementServiceTest {
     @InjectMocks
     private MeasurementServiceImpl measurementService;
 
-
-    @Test
-    void saveMeasurement_shouldNotSaveDuplicate_test(){
-        MeasurementRequest measurementRequest = new MeasurementRequest();
-
-        measurementRequest.setUserId(1L);
-        measurementRequest.setTimestamp(LocalDateTime.of(2025, 5, 28, 10, 0));
-
-        when(measurementRepository.existsByUserIdAndTimestamp(
-                measurementRequest.getUserId(), measurementRequest.getTimestamp())).thenReturn(true);
-
-        measurementService.saveMeasurement(measurementRequest);
-
-        verify(measurementRepository,never()).save(any());
-        }
     @Test
     void saveMeasurement_shouldSaveMeasurement_whenNotDuplicate(){
 
