@@ -1,23 +1,27 @@
-/*C62*/SET SCHEMA PUBLIC
-INSERT INTO METER_READINGS VALUES(102,'uploads/1776855189647_\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430 2026-04-22 \u0432 02.18.45.png','Detected 2 diacritics\u000aHAN TO\u000a180456172','OCR','2026-04-22 10:00:00.000000','HOT_WATER',4,2.0E0)
-ALTER SEQUENCE PUBLIC.METER_READINGS_SEQ RESTART WITH 201
-COMMIT
+/*C22*/SET SCHEMA PUBLIC
+create table meters (id bigint not null, serial_number varchar(255) not null, type varchar(255) not null check (type in ('COLD_WATER','HOT_WATER','GAS')), user_id bigint not null, primary key (id))
+create table users (id bigint not null, password varchar(255) not null, username varchar(255) not null, primary key (id))
+alter table meters add constraint UKmts2vgikru1xlrxmt4rjtrl0g unique (serial_number)
+alter table users add constraint UKr43af9ap4edm43mmtq01oddj6 unique (username)
+create sequence meters_seq start with 1 increment by 50
+create sequence users_seq start with 1 increment by 50
+alter table meters add constraint FKk8o0x8ij2anyv062e3bmwbcfj foreign key (user_id) references users
 DISCONNECT
-/*C63*/SET SCHEMA PUBLIC
+/*C23*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C64*/SET SCHEMA PUBLIC
+/*C24*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C65*/SET SCHEMA PUBLIC
+/*C25*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C66*/SET SCHEMA PUBLIC
+/*C26*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C67*/SET SCHEMA PUBLIC
+/*C27*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C68*/SET SCHEMA PUBLIC
+/*C28*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C69*/SET SCHEMA PUBLIC
+/*C29*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C70*/SET SCHEMA PUBLIC
+/*C30*/SET SCHEMA PUBLIC
 DISCONNECT
-/*C71*/SET SCHEMA PUBLIC
+/*C31*/SET SCHEMA PUBLIC
 DISCONNECT
