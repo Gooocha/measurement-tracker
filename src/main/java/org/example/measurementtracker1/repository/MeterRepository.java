@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MeterRepository extends JpaRepository<Meter, Long> {
+
     // legacy compatibility methods
     Optional<Meter> findBySerialNumber(String serialNumber);
     List<Meter> findByUserId(Long userId);

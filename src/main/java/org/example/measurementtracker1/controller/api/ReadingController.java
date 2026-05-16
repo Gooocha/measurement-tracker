@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@RestController("apiReadingController") @RequestMapping("/readings") @RequiredArgsConstructor
+@RestController @RequestMapping("/readings") @RequiredArgsConstructor
 public class ReadingController {
   private final MeterRepository meterRepository; private final MeterReadingRepository readingRepository; private final UserRepository userRepository;
   private User u(Principal p){ return userRepository.findByUsername(p.getName()).orElseThrow(); }

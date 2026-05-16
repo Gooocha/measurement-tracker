@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@RestController("apiAuthController") @RequestMapping("/auth") @RequiredArgsConstructor
+@RestController @RequestMapping("/auth") @RequiredArgsConstructor
 public class AuthController {
     private final UserRepository userRepository; private final PasswordEncoder encoder;
     @PostMapping("/register") @ResponseStatus(HttpStatus.CREATED)

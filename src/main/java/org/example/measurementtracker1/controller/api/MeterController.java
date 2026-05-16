@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@RestController("apiMeterController") @RequestMapping("/meters") @RequiredArgsConstructor
+@RestController @RequestMapping("/meters") @RequiredArgsConstructor
 public class MeterController {
     private final MeterRepository meterRepository; private final UserRepository userRepository;
     private User user(Principal p){ return userRepository.findByUsername(p.getName()).orElseThrow(); }
