@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@RestController("apiOcrTaskController") @RequestMapping("/ocr/tasks") @RequiredArgsConstructor
+@RestController @RequestMapping("/ocr/tasks") @RequiredArgsConstructor
 public class OcrTaskController {
   private final OcrTaskRepository repo; private final MeterRepository meterRepo; private final UserRepository userRepo; private final FileStorageService fs;
   private User u(Principal p){ return userRepo.findByUsername(p.getName()).orElseThrow(); }
