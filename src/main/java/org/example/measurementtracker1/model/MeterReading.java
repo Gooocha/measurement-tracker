@@ -1,30 +1,23 @@
 package org.example.measurementtracker1.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(
-        name = "meter_readings",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"user_id", "timestamp", "type"})
-        }
-)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "meter_readings", uniqueConstraints = @UniqueConstraint(columnNames = {"meter_id", "timestamp"}))
+@Getter
+@Setter
 public class MeterReading {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "meter_id", nullable = false)
+    private Meter meter;
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
@@ -34,15 +27,11 @@ public class MeterReading {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ReadingType type;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private ReadingSource source;
 
     @Column(name = "image_path")
     private String imagePath;
 
-    @Column(name = "ocr_raw_text", length = 1000)
+    @Column(name = "ocr_raw_text", length = 2000)
     private String ocrRawText;
 }
